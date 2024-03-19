@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  master:
+    build: ./Workers/Master
+    ports:
+      - "4000:4000" 
+    networks:
+      - mynetwork
+
+  client:
+    build: ./Workers/Client
+    scale: 2
+    environment:
+      - MASTER_HOST=master 
+      - MASTER_PORT=4000
+    depends_on:
+      - master
+    networks:
+      - mynetwork
+    deploy:
+      replicas: 2
+      
+networks:
+  mynetwork:

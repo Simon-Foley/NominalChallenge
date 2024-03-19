@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decryption-master
+  namespace: decryption-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: decryption-master
+  template:
+    metadata:
+      labels:
+        app: decryption-master
+    spec:
+      containers:
+      - name: decryption-master
+        image: localhost:5000/decryption-master:latest
+        ports:
+        - containerPort: 4000

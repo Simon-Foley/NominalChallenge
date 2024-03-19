@@ -7,11 +7,10 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Master/Master.csproj", "Master/"]
-RUN dotnet restore "./Master/Master.csproj"
+COPY ["Master.csproj", "./"]
+RUN dotnet restore "./Master.csproj"
 COPY . .
-WORKDIR "/src/Master"
-RUN dotnet build "./Master.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "Master.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release

@@ -1,7 +1,19 @@
 using Client;
 
-var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddHostedService<ClientWorker>();
+public static class Program
+{
+    public static void Main(string[] args)
+    {
+        ClientHostBuilder(args)
+            .Build()
+            .Run();
+    }
 
-var host = builder.Build();
-host.Run();
+    private static HostApplicationBuilder ClientHostBuilder(string[] args)
+    {
+        var builder = Host.CreateApplicationBuilder(args);
+        builder.Services.AddHostedService<ClientWorker>();
+        return builder;
+    }
+
+}
