@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{DA693821-E4FD-41D5-8A13-3FEC460F5548}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CD5ADFB3-1C6B-4EEF-8AAF-AC4B409B20B2} = {CD5ADFB3-1C6B-4EEF-8AAF-AC4B409B20B2}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master", "Master\Master.csproj", "{CD5ADFB3-1C6B-4EEF-8AAF-AC4B409B20B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Master", "Master\Master.csproj", "{CD5ADFB3-1C6B-4EEF-8AAF-AC4B409B20B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

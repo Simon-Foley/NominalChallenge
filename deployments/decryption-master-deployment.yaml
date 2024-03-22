@@ -16,6 +16,21 @@ spec:
     spec:
       containers:
       - name: decryption-master
-        image: localhost:5000/decryption-master:latest
+        image: decryption-master
+        imagePullPolicy: Never
         ports:
         - containerPort: 4000
+        volumeMounts:
+          - name: input-volume
+            mountPath: /app/inputs
+          - name: output-volume
+            mountPath: /app/outputs
+      volumes:
+        - name: input-volume
+          hostPath:
+            path: /run/desktop/mnt/host/c/Users/Simon/source/repos/Nominal/NominalChallenge/Inputs
+            type: Directory
+        - name: output-volume
+          hostPath:
+            path: /run/desktop/mnt/host/c/Users/Simon/source/repos/Nominal/NominalChallenge/Outputs
+            type: DirectoryOrCreate

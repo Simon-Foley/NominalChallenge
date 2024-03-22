@@ -16,9 +16,10 @@ spec:
     spec:
       containers:
       - name: decryption-client
-        image: localhost:5000/decryption-client:latest
+        image: decryption-client
+        imagePullPolicy: Never
         env:
           - name: MASTER_HOST
-            value: "master"  # Assuming DNS resolution is handled within the cluster
+            value: "decryption-master.decryption-service.svc.cluster.local"  
           - name: MASTER_PORT
             value: "4000"

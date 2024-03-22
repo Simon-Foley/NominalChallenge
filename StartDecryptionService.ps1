@@ -1,28 +1,14 @@
-
-
 # StartDecryptionService.ps1
 
-param(
-    [string]$Registry = "localhost:5000"
-)
+# Generate a new GUID for the image tag
+$imageTag = [guid]::NewGuid().ToString()
 
-. .\ps-scripts\StartContainerRegistry.ps1
-
+# Create namespace if we haven't already and clear up
 kubectl create namespace 'decryption-service'
+kubectl delete --all deployments -n decryption-service
 
-docker build -t decryption-master:latest ./Workers/Master
-docker build -t decryption-client:latest ./Workers/Client
-
-# Tag the images with the registry's address
-docker tag decryption-master:latest $Registry/decryption-master:latest
-docker tag decryption-client:latest $Registry/decryption-client:latest
-
-# Push the images to the local registry
-docker push $Registry/decryption-master:latest
-docker push $Registry/decryption-client:latest
-
-
-
+docker build -t decryption-master:$imageTag ./Workers/Master
+docker build -t decryption-client:$imageTag ./Workers/Client
 
 # Apply the master deployment
 Write-Host "Applying master deployment..."
@@ -32,8 +18,11 @@ kubectl apply -f deployments/decryption-master-deployment.yaml
 Write-Host "Applying client deployment..."
 kubectl apply -f deployments/decryption-client-deployment.yaml
 
-
 # Apply the master service
 Write-Host "Applying master service..."
 kubectl apply -f services/decryption-master-service.yaml
-Pop-Location
+
+# A broken container will start up before we set image here
+# In prod envs would be using kustomize etc so the templating is done properly
+kubectl set image deployment/decryption-master decryption-master=decryption-master:$imageTag -n decryption-service
+kubectl set image deployment/decryption-client decryption-client=decryption-client:$imageTag -n decryption-service
