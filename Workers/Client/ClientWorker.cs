@@ -17,7 +17,7 @@ namespace Client
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             logger.LogInformation("Giving time to initialise...");
-            await Task.Delay(10000);
+            await Task.Delay(5000);
 
             while (!stoppingToken.IsCancellationRequested)
             {

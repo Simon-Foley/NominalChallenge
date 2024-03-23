@@ -26,6 +26,9 @@ namespace Master
         {
             var results = new ConcurrentBag<WorkItemResult>();
             var clientTasks = new List<Task>();
+
+            // ToList() so that we can remove _clients from the actual dict if they aren't connected
+            // haven't tested that
             foreach (var client in _clientManager.GetClients().ToList())
             {
                 clientTasks.Add(Task.Run(async () =>
@@ -34,15 +37,12 @@ namespace Master
                     {
                         try
                         {
-
-
                             var result = await client.ExecuteDecrypt(workItem);
                             results.Add(result);
                         }
                         catch (ClientNotConnectedException)
                         {
                             _clientManager.RemoveClient(client._clientId);
-                            // Optionally break or continue based on your logic
                         }
                     }
 

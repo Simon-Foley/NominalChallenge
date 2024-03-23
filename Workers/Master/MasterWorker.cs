@@ -1,7 +1,6 @@
 using Master.Models;
 using System.Net;
 using System.Net.Sockets;
-using System.Text.Json;
 
 
 namespace Master
@@ -23,7 +22,7 @@ namespace Master
             StartServer(4000, stoppingToken);
 
             logger.LogInformation("Waiting for client connections...");
-            
+
             // Technically we don't need to wait for 2 it can run with 1
             // but this guarantees we get both (could depend on env variables for replica too)
             while (_clientManager.ConnectedClientsCount() < 2)
@@ -51,7 +50,6 @@ namespace Master
             foreach(WorkItemResult result in results)
             {
                 logger.LogInformation($"Result for file: {result.FileName} \n {result.JsonResult?.ToString() ?? result.ErrorMessage}");
-                //logger.LogInformation(result.JsonResult?.ToString() ?? result.ErrorMessage);
             }
 
             WriteResultsToOutput(results);
